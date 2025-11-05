@@ -54,9 +54,9 @@ export default function InfoHint() {
           </p>
           <p>
             Якщо в прізвищі є апостроф, його можна набрати двома способами:
-            <code className="mx-1">"</code> або <code className="mx-1">'</code>
+            <code className="mx-1">&quot;</code> або <code className="mx-1">&apos;</code>
             (у англійській розкладці, де українська «є»).{" "}
-            <strong>Наприклад:</strong> Водоп'янов.
+            <strong>Наприклад:</strong> Водоп&apos;янов.
           </p>
           <p>
             Якщо ви не можете увійти в свій кабінет, зверніться в абонентський

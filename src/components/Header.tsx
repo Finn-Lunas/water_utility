@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 
 const nav = [
   { href: "/#news", label: "Новини" },
@@ -15,8 +14,6 @@ const nav = [
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname();
-  const router = useRouter();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();

@@ -9,7 +9,7 @@ function Chip({
   children: React.ReactNode;
   href?: string;
 }) {
-  const Tag: any = href ? "a" : "span";
+  const Tag = href ? "a" : "span";
   return (
     <Tag
       href={href}

@@ -17,7 +17,7 @@ export default function Sidebar({
   
   // Lottie JSON control
   const iconContainerRef = useRef<HTMLDivElement | null>(null);
-  const lottieRef = useRef<any>(null);
+  const lottieRef = useRef<unknown>(null);
   const targetFrameRef = useRef<number>(1);
 
   useEffect(() => {
@@ -46,14 +46,14 @@ export default function Sidebar({
     return () => {
       destroyed = true;
       try {
-        lottieRef.current?.destroy?.();
+        const anim = lottieRef.current as any;
+        anim?.destroy?.();
       } catch {}
     };
   }, []);
 
-  const total = 77;
   const playTo = (from: number, to: number) => {
-    const anim = lottieRef.current;
+    const anim = lottieRef.current as any;
     if (!anim) return;
     targetFrameRef.current = to;
     anim.goToAndStop(from, true);
