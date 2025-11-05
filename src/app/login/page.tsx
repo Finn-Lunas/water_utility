@@ -3,6 +3,8 @@ import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import InfoHint from "@/components/ui/InfoHint";
+import LatestNews from "@/components/ui/LatestNews";
+import { news } from "@/components/sections/NewsSection";
 
 export const metadata: Metadata = {
   title: "Вхід в особистий кабінет — Водоканал Карпатвіз",
@@ -31,12 +33,23 @@ export default function LoginPage() {
   // server action-шаблон (поки без реальної авторизації)
   async function loginAction(formData: FormData) {
     "use server";
+    const { redirect } = await import("next/navigation");
+    
     // honeypot: якщо заповнено — бот
     if ((formData.get("website") || "").toString().trim()) return;
     const cf = (formData.get("cf-turnstile-response") || "").toString();
     const v = await verifyTurnstile(cf);
     if (!v.success) return; // тут можна додати повідомлення про помилку/логування
-    // TODO: далі — пошук абонента та авторизація
+    
+    // Перевірка чи заповнені поля (базова валідація)
+    const account = (formData.get("account") || "").toString().trim();
+    const surname = (formData.get("surname") || "").toString().trim();
+    
+    if (account && surname) {
+      // TODO: далі — пошук абонента та авторизація
+      // Поки просто редіректимо на кабінет
+      redirect("/cabinet");
+    }
   }
 
   return (
@@ -65,10 +78,11 @@ export default function LoginPage() {
               Укажіть номер особового рахунку та прізвище.
             </p>
 
-            <form
-              action={loginAction}
-              className="mt-6 max-w-xl rounded-2xl border border-line bg-white shadow-soft p-5 md:p-6"
-            >
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-stretch">
+              <form
+                action={loginAction}
+                className="rounded-2xl border border-line bg-white shadow-soft p-5 md:p-6"
+              >
               {/* honeypot (не відображати) */}
               <input
                 type="text"
@@ -87,6 +101,7 @@ export default function LoginPage() {
                     name="account"
                     inputMode="numeric"
                     placeholder="Напр., 0123456789"
+                    required
                     className="h-11 rounded-xl border border-line px-3 outline-none focus:border-primary"
                   />
                 </label>
@@ -96,6 +111,7 @@ export default function LoginPage() {
                   <input
                     name="surname"
                     placeholder="Напр., Іваненко"
+                    required
                     className="h-11 rounded-xl border border-line px-3 outline-none focus:border-primary"
                   />
                 </label>
@@ -103,7 +119,7 @@ export default function LoginPage() {
                 {/* Тільки Turnstile */}
                 <div className="mt-2 rounded-xl border border-line bg-white/60 px-3 py-2">
                   <div className="flex items-center gap-3 flex-wrap">
-                    <div className="flex-1 min-w-[260px] max-w-full">
+                    <div className="flex-1 min-w-[160px] max-w-full">
                       <div
                         className="cf-turnstile"
                         data-sitekey={siteKey}
@@ -129,7 +145,12 @@ export default function LoginPage() {
                   <InfoHint />
                 </div>
               </div>
-            </form>
+              </form>
+
+              <div className="lg:order-2">
+                <LatestNews news={news[0]} />
+              </div>
+            </div>
           </div>
         </section>
       </main>

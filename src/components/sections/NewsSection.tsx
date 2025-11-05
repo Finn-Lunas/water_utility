@@ -1,7 +1,7 @@
 import SectionHeading from "@/components/ui/SectionHeading";
 import Pagination from "@/components/ui/Pagination";
 
-type News = {
+export type News = {
   id: number;
   title: string;
   date: string;
@@ -9,7 +9,7 @@ type News = {
   excerpt: string;
 };
 
-const news: News[] = Array.from({ length: 6 }).map((_, i) => ({
+export const news: News[] = Array.from({ length: 6 }).map((_, i) => ({
   id: i + 1,
   title: "Заплановані роботи на водогоні в районі Південний",
   date: "11.08.2025",
